@@ -6,7 +6,3 @@ export type TPost = {
   tags: string[];
   reactions: number;
 };
-
-export type TPosts = {
-  posts: TPost[];
-};

@@ -1,23 +1,48 @@
-import type { TPost, TPosts } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
+import { SubmitBtn } from "@/components/SubmitBtn";
+import type { TPost } from "@/lib/types";
+
+type Inputs = {
+  example: string
+  exampleRequired: string
+}
 
 export default async function PostsPage() {
-  const posts: TPosts = await fetch("https://dummyjson.com/posts?limit=5").then((res) => res.json());
-
-  // new Promise((resolve) => setTimeout(() => resolve, 2000));
+  const posts: TPost[] = await fetch("http://localhost:3002/posts").then((res) => res.json());
 
   const renderListItem = (post: TPost) => {
     return (
-      <div role="listitem" key={post.id} className="border mt-5 first:mt-0">
+      <li key={post.id} className="border mt-5 first:mt-0">
         <div>{post.id}</div>
         <p>{post.title}</p>
-      </div>
+        <p className="m-2">{post.body}</p>
+      </li>
     );
   };
 
+  async function create(formData: FormData) {
+    "use server";
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    fetch("http://localhost:3002/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: formData.get("title") as string,
+        body: formData.get("body") as string,
+        userId: 1,
+        tags: [],
+        reactions: 0,
+      }),
+    });
+
+    revalidatePath("/posts");
+  }
+
   // TODO: submit new post to collection
   // TODO: test random limit refresh on build
-  // !!! https://tailwindcss.com/docs/responsive-design
   // TS: https://www.youtube.com/watch?v=TPACABQTHvM&ab_channel=ByteGrad
   // Next.js: https://www.youtube.com/watch?v=vwSlYG7hFk0&ab_channel=ByteGrad
 
@@ -26,14 +51,18 @@ export default async function PostsPage() {
       <Link className="text-3xl underline block mb-12" href="/">
         To Main
       </Link>
-      <form action="" className="mx-auto w-2/4 mb-5 flex flex-col items-center gap-3 p-5">
-        <input type="text" placeholder="name" className="w-2/4 p-2 bg-transparent border rounded" />
-        <textarea placeholder="description" className="w-2/4 p-2 bg-transparent border rounded" />
-        <input type="submit" value="Submit" className="w-1/4 text-xl border rounded p-2 hover:cursor-pointer" />
+      <form action={create} className="mx-auto w-2/4 mb-5 flex flex-col items-center gap-3 p-5">
+        <input
+          type="text"
+          name="title"
+          placeholder="name"
+          required
+          className="w-2/4 p-2 bg-transparent border rounded"
+        />
+        <textarea name="body" placeholder="description" required className="w-2/4 p-2 bg-transparent border rounded" />
+        <SubmitBtn />
       </form>
-      <div role="list" className="text-2xl mx-auto w-2/4">
-        {posts.posts.map((item) => renderListItem(item))}
-      </div>
+      <ul className="text-2xl mx-auto w-2/4">{posts.map((item) => renderListItem(item))}</ul>
     </main>
   );
 }
