@@ -1,3 +1,4 @@
+import Card from "@/components/Card";
 import { Counter } from "@/components/Counter";
 import Link from "next/link";
 
@@ -8,6 +9,7 @@ export default function Home() {
         To Posts
       </Link>
       <Counter />
+      <Card />
     </main>
   );
 }
