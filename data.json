@@ -99,6 +99,22 @@
       "tags": [],
       "reactions": 0,
       "id": 11
+    },
+    {
+      "title": "12312",
+      "body": "312312",
+      "userId": 1,
+      "tags": [],
+      "reactions": 0,
+      "id": 12
+    },
+    {
+      "title": "my post",
+      "body": "lorem ipsum",
+      "userId": 1,
+      "tags": [],
+      "reactions": 0,
+      "id": 13
     }
   ]
 }
