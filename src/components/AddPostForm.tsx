@@ -10,7 +10,7 @@ export const AddPostForm = () => {
   const createNewPost = async (formData: FormData) => {
     await addPost(formData);
     ref.current?.reset();
-  }
+  };
 
   return (
     <form ref={ref} action={createNewPost} className="mx-auto w-2/4 mb-5 flex flex-col items-center gap-3 p-5">

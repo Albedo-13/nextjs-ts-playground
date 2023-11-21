@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 export async function addPost(formData: FormData) {
+  "use server";
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
   fetch("http://localhost:3002/posts", {

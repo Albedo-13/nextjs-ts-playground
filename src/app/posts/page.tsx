@@ -2,11 +2,6 @@ import Link from "next/link";
 import type { TPost } from "@/lib/types";
 import { AddPostForm } from "@/components/AddPostForm";
 
-type Inputs = {
-  example: string
-  exampleRequired: string
-}
-
 export default async function PostsPage() {
   const posts: TPost[] = await fetch("http://localhost:3002/posts").then((res) => res.json());
 
