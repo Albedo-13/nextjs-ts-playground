@@ -6,12 +6,17 @@ import { AddPostForm } from "@/components/AddPostForm";
 // Next.js: https://www.youtube.com/watch?v=vwSlYG7hFk0&ab_channel=ByteGrad
 
 export default async function PostsPage() {
-  const posts: TPost[] = await fetch("http://localhost:3002/posts").then((res) => res.json());
+  const randomNumber = Math.floor(Math.random() * 10) + 1;
+  const posts: TPost[] = await fetch(`http://localhost:3002/posts`)
+    .then((res) => res.json())
+    .then((posts) => posts.slice(0, randomNumber));
 
   const renderListItem = (post: TPost) => {
     return (
       <li key={post.id} className="border mt-5 first:mt-0 p-2">
-        <Link href={`/posts/${post.id}`} className="hover:underline">{post.title}</Link>
+        <Link href={`/posts/${post.id}`} className="hover:underline">
+          {post.id} - {post.title}
+        </Link>
       </li>
     );
   };
