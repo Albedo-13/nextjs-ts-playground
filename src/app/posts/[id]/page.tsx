@@ -1,8 +1,12 @@
 import Link from "next/link";
 import type { TPost } from "@/lib/types";
 
-export default async function Post() {
-  const post: TPost = await fetch("http://localhost:3002/posts/1").then((res) => res.json());
+type PostPageProps = {
+  params: TPost;
+};
+
+export default async function PostPage({ params }: PostPageProps) {
+  const post: TPost = await fetch(`http://localhost:3002/posts/${params.id}`).then((res) => res.json());
 
   return (
     <main className="mt-5 text-center">
