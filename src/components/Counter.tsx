@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import CounterVariable from "./CounterVariable";
 
 export const Counter = () => {
   const [counter, setCounter] = useState(0);
@@ -18,10 +19,11 @@ export const Counter = () => {
     setCounter(counter - 1);
   };
 
+  console.log("rerender root counter")
   return (
     <div>
       <h2 className="text-5xl mb-4">{counter}</h2>
-      <div className="flex flex-wrap justify-center" role="group">
+      <div className="flex flex-wrap justify-center">
         <button
           className="p-6 m-2 text-2xl bg-green-700 hover:bg-green-900 transition duration-200 w-20 rounded-lg"
           onClick={() => increaseCounter()}
@@ -41,6 +43,7 @@ export const Counter = () => {
           -
         </button>
       </div>
+      <CounterVariable increaseCounter={increaseCounter} decreaseCounter={decreaseCounter} />
     </div>
   );
 };
